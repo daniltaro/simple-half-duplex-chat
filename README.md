@@ -15,7 +15,6 @@ A minimal TCP client-server chat application written in C++ using Boost.Asio.
 ```bash
 make server    # Build server executable
 make client    # Build client executable
-make all       # Build both
 ```
 
 ## Usage
