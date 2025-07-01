@@ -1,0 +1,10 @@
+# Ignore compiled binaries
+client
+server
+
+# Ignore object files
+*.o
+
+# Ignore backup/temporary files
+*~
+
