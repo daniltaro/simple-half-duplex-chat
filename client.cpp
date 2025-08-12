@@ -6,10 +6,18 @@ using namespace std;
 using namespace boost::asio;
 using namespace boost::asio::ip;
 
-string getData(tcp::socket& socket) {
+string getData(tcp::socket& socket){
     boost::asio::streambuf buf;
     read_until(socket, buf, "\n");
-    string data = boost::asio::buffer_cast<const char*>(buf.data());
+
+    std::string data(
+        boost::asio::buffers_begin(buf.data()),
+        boost::asio::buffers_begin(buf.data()) + buf.size()
+    );
+
+    //  cleanse buffer 
+    buf.consume(buf.size());
+
     return data;
 }
 
@@ -18,7 +26,7 @@ void sendData(tcp::socket& socket, const string& message) {
 }
 
 int main() {
-    io_service io_service;
+    io_context io_context;
 
     string IP;
     int port;
@@ -31,8 +39,8 @@ int main() {
     cin.ignore();
   
     //connection
-    tcp::socket client_socket(io_service);
-    client_socket.connect(tcp::endpoint(address::from_string(IP), port));
+    tcp::socket client_socket(io_context);
+    client_socket.connect(tcp::endpoint(boost::asio::ip::make_address(IP), port));
 
     cout << "Enter your name: ";
     string u_name;

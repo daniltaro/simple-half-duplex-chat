@@ -16,13 +16,13 @@ int main(){
     cin.ignore();
 
     cout << "Waiting for client..." << endl;
-    io_service io_service;
+    io_context io_context;
 
     //listening
-    tcp::acceptor acceptor_server(io_service, 
+    tcp::acceptor acceptor_server(io_context, 
             tcp::endpoint(tcp::v4(), port));
 
-    tcp::socket server_socket(io_service);
+    tcp::socket server_socket(io_context);
 
     //waiting for connection
     acceptor_server.accept(server_socket);
@@ -66,7 +66,15 @@ int main(){
 string getData(tcp::socket& socket){
     boost::asio::streambuf buf;
     read_until(socket, buf, "\n");
-    string data = boost::asio::buffer_cast<const char*>(buf.data());
+
+    std::string data(
+        boost::asio::buffers_begin(buf.data()),
+        boost::asio::buffers_begin(buf.data()) + buf.size()
+    );
+
+    //  cleanse buffer 
+    buf.consume(buf.size());
+
     return data;
 }
 

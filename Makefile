@@ -1,6 +1,13 @@
+CXX = clang++
+INCLUDE = 
+LIB = 
+CXXFLAGS = $(if $(INCLUDE),-I$(INCLUDE))
+LDFLAGS = $(if $(LIB),-L$(LIB)) -lboost_system
+
 all: server client
 
-server: 
-	g++ server.cpp -o server -lboost_system
-client:
-	g++ client.cpp -o client -lboost_system
+server: server.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
+
+client: client.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)

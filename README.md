@@ -8,13 +8,12 @@ A minimal TCP client-server chat application written in C++ using Boost.Asio.
 - 👤 Client sends username on connect
 
 ## Requirements
-- C++11 compatible compiler
-- Boost library (system component)
+- C++17 compatible compiler
+- Boost library 
 
 ## Build
 ```bash
-make server    # Build server executable
-make client    # Build client executable
+make INCLUDE=/your/include/path LIB=/your/lib/path
 ```
 
 ## Usage
